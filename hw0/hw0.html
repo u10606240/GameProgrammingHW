@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<style>
+#info {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  color: #00ffff
+}
+
+body {
+  overflow: hidden;
+}
+
+
+</style>
+</head>
+
+<div id="info">minimal three.js</div>
+<script src="https://threejs.org/build/three.min.js"></script>
+<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+
+
+<body> 
+<script>
+
+var camera, scene, renderer;
+var clock;
+var train;
+var angle  = 0;
+
+init();
+animate();
+
+function init() {
+
+  scene = new THREE.Scene();
+
+  clock = new THREE.Clock();
+  
+  renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setClearColor(0x888888);
+  document.body.appendChild(renderer.domElement);
+
+  camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
+  camera.position.set (0, 40, 50);
+  let controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+  var gridXZ = new THREE.GridHelper(200, 20, 'red', 'white');
+  scene.add(gridXZ);
+ 
+ ////////////////////////////////////////////////////////////////
+   train = new THREE.Mesh (new THREE.BoxGeometry (10,10,30), new THREE.MeshNormalMaterial());
+   scene.add (train);
+}
+
+function animate() {
+  var radius = 50;
+  
+  train.position.set (radius* Math.cos(angle), 5, -radius* Math.sin(angle));
+train.rotation.y = angle;
+
+  var dt = clock.getDelta();
+  angle += 2*0.10472*dt;
+  
+  
+//  console.log (clock.getDelta());
+  
+  requestAnimationFrame(animate);
+  renderer.render(scene, camera);
+
+}
+
+
+
+</script>
+</body>
+
+</html>
