@@ -1,85 +1,31 @@
 <!DOCTYPE html>
 
 <html>
+<h1 align="center"><font face="Bookman Old Style">GameProgramming</font></h1>
+<h1 align="center"><font face="Bookman Old Style">I4B40 楊景汶</font></h1>
+<h1 align="center"><font face="Bookman Old Style">u10606240@ms.ttu.edu.tw</font></h1>
 
-<head>
-<style>
-#info {
-  position: absolute;
-  top: 0px;
-  width: 100%;
-  padding: 10px;
-  text-align: center;
-  color: #00ffff
-}
-
-body {
-  overflow: hidden;
-}
-
-
-</style>
-</head>
-
-<div id="info">minimal three.js</div>
-<script src="https://threejs.org/build/three.min.js"></script>
-<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
-
-
-<body> 
-<script>
-
-var camera, scene, renderer;
-var clock;
-var train;
-var angle  = 0;
-
-init();
-animate();
-
-function init() {
-
-  scene = new THREE.Scene();
-
-  clock = new THREE.Clock();
-  
-  renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor(0x888888);
-  document.body.appendChild(renderer.domElement);
-
-  camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
-  camera.position.set (0, 40, 50);
-  let controls = new THREE.OrbitControls(camera, renderer.domElement);
-
-  var gridXZ = new THREE.GridHelper(200, 20, 'red', 'white');
-  scene.add(gridXZ);
- 
- ////////////////////////////////////////////////////////////////
-   train = new THREE.Mesh (new THREE.BoxGeometry (10,10,30), new THREE.MeshNormalMaterial());
-   scene.add (train);
-}
-
-function animate() {
-  var radius = 50;
-  
-  train.position.set (radius* Math.cos(angle), 5, -radius* Math.sin(angle));
-train.rotation.y = angle;
-
-  var dt = clock.getDelta();
-  angle += 2*0.10472*dt;
-  
-  
-//  console.log (clock.getDelta());
-  
-  requestAnimationFrame(animate);
-  renderer.render(scene, camera);
-
-}
-
-
-
-</script>
-</body>
-
+<table border="1" width="100%">
+	<tr>
+		<td width="389">
+		<img border="0" src="figs/t0.gif" width="389" height="253"></td>
+		<td width="446">
+		<img border="0" src="figs/t1.gif" width="435" height="246"></td>
+		<td><img border="0" src="figs/t2.gif" width="444" height="251"></td>
+	</tr>
+	<tr>
+		<td width="389">
+		<p align="center">
+		<a href="http://jyunming-chen.github.io/tutsplus/tutsplus0.html">
+		hw0.html</a></td>
+		<td width="447">
+		<p align="center">
+		<a href="http://jyunming-chen.github.io/tutsplus/tutsplus1.html">
+		hw1.html</a></td>
+		<td>
+		<p align="center">
+		<a href="http://jyunming-chen.github.io/tutsplus/tutsplus2.html">
+		hw2.html </a>
+	</tr>
+</table>
 </html>
