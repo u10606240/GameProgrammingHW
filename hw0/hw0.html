@@ -25,9 +25,9 @@ body {
 <script src="https://threejs.org/build/three.min.js"></script>
 <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<button onclick="trainTurn()">Toggle Turn</button> 
-<body>
 
+<body>
+<button onclick="trainTurn()">Toggle Turn</button> 
 <script>
 
 var camera, scene, renderer;
@@ -62,22 +62,20 @@ function init() {
   scene.add(gridXZ);
  
  ////////////////////////////////////////////////////////////////
-   train = new THREE.Mesh (new THREE.BoxGeometry (10,10,30), new THREE.MeshNormalMaterial());
+   train = new THREE.Mesh (new THREE.CylinderGeometry( 5, 5, 20, 32 ) , new THREE.BoxGeometry (10,10,30), new THREE.MeshNormalMaterial());
    scene.add (train);
 }
 
 function animate() {
-  
+  if(turn)
   var radius = 50;
   
   train.position.set (radius* Math.cos(angle), 5, -radius* Math.sin(angle));
-   if(turn){
-	train.rotation.y = angle;
+  train.rotation.y = angle;
 
-	var dt = clock.getDelta();
+  var dt = clock.getDelta();
 
-	angle += 2*0.10472*dt;
-  }
+  angle += 2*0.10472*dt;
   
 //  console.log (clock.getDelta());
   
