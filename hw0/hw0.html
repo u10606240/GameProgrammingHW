@@ -32,7 +32,7 @@ body {
 
 var camera, scene, renderer;
 var clock;
-var train;
+var train,cylinder;
 var angle  = 0;
 var turn = true;
 
@@ -63,7 +63,7 @@ function init() {
  
  ////////////////////////////////////////////////////////////////
    train = new THREE.Mesh (new THREE.BoxGeometry (10,10,30), new THREE.MeshNormalMaterial());
-   cylinder = new THREE.CylinderGeometry( 5, 5, 20, 32 )
+   cylinder = new THREE.CylinderGeometry( 5, 5, 20, 32 );
    scene.add (train,cylinder);
 }
 
