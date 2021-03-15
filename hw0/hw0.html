@@ -25,7 +25,7 @@ body {
 <script src="https://threejs.org/build/three.min.js"></script>
 <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<button id="toggle">Toggle Turn</button> 
+<button onclick="trainTurn()">Toggle Turn</button> 
 <body>
 
 <script>
@@ -39,9 +39,9 @@ var turn = true;
 init();
 animate();
 
-$("#toggle").click(function() {
+function trainTurn(){
   turn = !turn;
-});
+}
 
 function init() {
 
