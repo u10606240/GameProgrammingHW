@@ -27,16 +27,21 @@ body {
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
 <body>
-<button id="toggle" style="width:20%">Toggle Turn</button> 
+<button id="trainTurn">Toggle Turn</button> 
 <script>
 
 var camera, scene, renderer;
 var clock;
 var train;
 var angle  = 0;
+var turn = true;
 
 init();
 animate();
+
+$("#trainTurn").click(function() {
+  turn = !turn;
+});
 
 function init() {
 
