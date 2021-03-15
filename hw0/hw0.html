@@ -71,10 +71,11 @@ function animate() {
   var radius = 50;
   
   train.position.set (radius* Math.cos(angle), 5, -radius* Math.sin(angle));
-  train.rotation.y = angle;
+   if(turn){
+	train.rotation.y = angle;
 
-  var dt = clock.getDelta();
-  if(turn){
+	var dt = clock.getDelta();
+
 	angle += 2*0.10472*dt;
   }
   
