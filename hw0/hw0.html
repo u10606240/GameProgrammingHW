@@ -21,13 +21,14 @@ body {
 </style>
 </head>
 
-<div id="info">hw0</div>
+<<div id="info">hw0
 <script src="https://threejs.org/build/three.min.js"></script>
 <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-
-<body>
+<br>
 <button onclick="trainTurn()">Toggle Turn</button> 
+</div>
+<body>
 <script>
 
 var camera, scene, renderer;
@@ -35,6 +36,7 @@ var clock;
 var train,cylinder;
 var angle  = 0;
 var turn = true;
+var group = new THREE.Mesh();
 
 init();
 animate();
@@ -62,31 +64,33 @@ function init() {
   scene.add(gridXZ);
  
  ////////////////////////////////////////////////////////////////
-   var group = new THREE.Mesh();
+   
    train = new THREE.Mesh (new THREE.BoxGeometry (10,10,30), new THREE.MeshNormalMaterial());
-   cylinder = new THREE.CylinderGeometry( 5, 5, 20, 32 );
+   cylinder = new THREE.Mesh (new THREE.CylinderGeometry( 5, 5, 20, 32));
    group.add(train);
    group.add(cylinder);
    scene.add (group);
 }
 
 function animate() {
-  if(turn)
+
   var radius = 50;
+  cylinder.position.y = 15;
+  cylinder.position.z = -10;
+  group.add(cylinder);
+  group.position.set (10 + radius* Math.cos(angle), 5 , -radius* Math.sin(angle));
+  group.rotation.y = angle;
   
-  train.position.set (radius* Math.cos(angle), 5, -radius* Math.sin(angle));
-  train.rotation.y = angle;
-
+  
   var dt = clock.getDelta();
-
-  angle += 2*0.10472*dt;
-  
-//  console.log (clock.getDelta());
-  
+  if(turn){
+    angle += 2*0.10472*dt*10;
+  }
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
 
 }
+
 
 
 
