@@ -21,12 +21,12 @@ body {
 </style>
 </head>
 
-<div id="info">minimal three.js</div>
+<body>
+<div id="info">hw0</div>
 <script src="https://threejs.org/build/three.min.js"></script>
 <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
-<body>
 <button id="trainTurn">Toggle Turn</button> 
 <script>
 
@@ -67,12 +67,14 @@ function init() {
 }
 
 function animate() {
+  
   var radius = 50;
   
   train.position.set (radius* Math.cos(angle), 5, -radius* Math.sin(angle));
-train.rotation.y = angle;
+  train.rotation.y = angle;
 
   var dt = clock.getDelta();
+  if(turn)
   angle += 2*0.10472*dt;
   
   
