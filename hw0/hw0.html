@@ -62,9 +62,12 @@ function init() {
   scene.add(gridXZ);
  
  ////////////////////////////////////////////////////////////////
+   var group = new THREE.Mesh();
    train = new THREE.Mesh (new THREE.BoxGeometry (10,10,30), new THREE.MeshNormalMaterial());
    cylinder = new THREE.CylinderGeometry( 5, 5, 20, 32 );
-   scene.add (train,cylinder);
+   group.add(train);
+   group.add(cylinder);
+   scene.add (group);
 }
 
 function animate() {
