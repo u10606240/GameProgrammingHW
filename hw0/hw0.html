@@ -39,7 +39,7 @@ var train,cylinder;
 var angle  = 0;
 var turn = true;
 var group = new THREE.Mesh();
-var len = 30;
+var len = 15;
 var tmp = 0;
 
 init();
@@ -88,8 +88,8 @@ function animate() {
   var dt = clock.getDelta();
   
   if(turn){
-		if(len + radius* Math.cos(angle) > 30){
-			len = 30;
+		if(len + radius* Math.cos(angle) > 15){
+			len = 15;
 			tmp = 0;
 			angle += 10*2*0.10472*dt;
 		}
@@ -97,8 +97,8 @@ function animate() {
 			angle = Math.PI/2; 	
 			len -= 120*dt;
 		}
-		if(len + radius* Math.cos(angle) < -30){
-			len = -30;
+		if(len + radius* Math.cos(angle) < -15){
+			len = -15;
 			tmp = 1;
 			angle += 10*2*0.10472*dt;
 		}
