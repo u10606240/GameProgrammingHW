@@ -20,21 +20,48 @@ body {
 </style>
 </head>
 
-<div id="info">hw1</div>
+<div id="info">hw1
 <script src="https://threejs.org/build/three.min.js"></script>
 <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <br>
-<button onclick="location.href='https://u10606240.github.io/GameProgrammingHW/index.html'">回首頁</button> 
-
+<button onclick="location.href='https://u10606240.github.io/GameProgrammingHW/index.html'">回首頁</button>
+<br>
+<button id='play' style="width:20%">Play</button> 
+</div>
 <body>
+
+<audio id="collisionsound" style="display:none">
+<source src="https://jyunming-chen.github.io/game3js/gameHWhelpers/sounds/collision3.wav" type='audio/wav'>
+</audio>
+
+<audio id="soundtrack" autoplay loop style="display:none">
+<source src="https://jyunming-chen.github.io/game3js/gameHWhelpers/sounds/KennyG.mp3"  type='audio/mp3'>
+</audio>
+
 <script>
+
+$('#play').click ( function() {
+	isPaused = !isPaused;
+	if (isPaused) { 
+		$('#play').text ('Play')
+		soundTrack.pause()
+	} else {
+		$('#play').text ('Pause')
+		soundTrack.play()
+	}
+});
 
 var camera, scene, renderer;
 var light, light2;
 var count = 0;
+var wall,point,normal;
 var walls = [];
 var pucks = [];
 var puckslight = [];
+var isPaused = false;
+var collisionSound, soundTrack;
+var  soundVal = 0.5, sign = 0.5;
 //const R = 4;
 
 class Walls{
@@ -118,6 +145,9 @@ animate();
 
 function init() {
 
+  collisionSound = document.getElementById ('collisionsound');
+  soundTrack = document.getElementById ('soundtrack');
+
   scene = new THREE.Scene();
 
   renderer = new THREE.WebGLRenderer();
@@ -133,6 +163,9 @@ function init() {
   //light.position.set( 50, 50, 50 );
   scene.add( light );
   
+  light2 = new THREE.AmbientLight( 0x202020 ); // soft white light
+  scene.add( light2 );
+  
   var floor = new THREE.Mesh (new THREE.PlaneGeometry(200,200), new THREE.MeshPhongMaterial({
     emissive: 0x6C6C6C}));
   floor.rotation.x = -Math.PI/2;
@@ -140,20 +173,20 @@ function init() {
 
   ////////////////////////////////////////////////////////
    
-	for ( i = 0; i < 5; i++){
+	for (let i = 0; i < 5; i++){
 		
 		var r = Math.floor(Math.random() * 360);
 		var g = Math.floor(Math.random() * 360);
 		var b = Math.floor(Math.random() * 360);
 		
-		pucklight = new THREE.PointLight("rgb("+r+","+g+","+b+")",1,90);
+		var pucklight = new THREE.PointLight("rgb("+r+","+g+","+b+")",1,90);
 		puckslight.push(pucklight);
 		scene.add(pucklight);
 	
-		puck = new THREE.Mesh(new THREE.CylinderGeometry(10,10,4,20),new THREE.MeshBasicMaterial({color:"rgb("+r+","+g+","+b+")"}));
-		force = new THREE.Vector3(0,0,0);
-		vel = new THREE.Vector3(i+1,0,i-2);
-		pos =new THREE.Vector3(i*20-50,0,i-3);
+		var puck = new THREE.Mesh(new THREE.CylinderGeometry(10,10,4,20),new THREE.MeshBasicMaterial({color:"rgb("+r+","+g+","+b+")"}));
+		var force = new THREE.Vector3(0,0,0);
+		var vel = new THREE.Vector3(i+1,0,i-2);
+		var pos =new THREE.Vector3(i*20-50,0,i-3);
 		//pos, vel, force, mesh,i
 		 
 		pucks.push(new Puck(pos,vel,force,puck.clone(),i));
@@ -209,12 +242,13 @@ function init() {
 
 function animate() {
 
-  requestAnimationFrame(animate);
-  render();
+  soundVal += sign*0.01;
+  soundVal = THREE.Math.clamp (soundVal, 0, 1);
+  soundtrack.volume = soundVal;
   
   for (let i = 0; i < 5; i++){
   	pucks[i].update();
-	for(j = 0 ; j < 5;j++){
+	for(let j = 0 ; j < 5;j++){
 		if(i != j){
 			pucks[i].hitpuck(pucks[j]);
 		}
@@ -223,12 +257,14 @@ function animate() {
 	puckslight[i].position.y +=10;
 	
 	//collision detection
-	for( j = 0 ; j < walls.length;j++){	
+	for(let j = 0 ; j < walls.length;j++){	
 		pucks[i].hit(walls[j].point,walls[j].normal);
-		//collisionSound.play();
+		collisionSound.play();
 
 	}
   }
+  requestAnimationFrame(animate);
+  render();
 
 }
 
