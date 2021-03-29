@@ -193,8 +193,6 @@ function init() {
 	}
 
    /////////////////////////////////////////////////////
-   var gridXZ = new THREE.GridHelper(200, 20, 'red', 'white');
-   scene.add(gridXZ);
   
    wall = new THREE.Mesh(new THREE.BoxGeometry(10,20,220),new THREE.MeshPhongMaterial({color: 0xCCCCCC,opacity:0.3,transparent:true}));
    wall.position.set (105, 10, 0);
