@@ -43,11 +43,13 @@ var camera, scene, renderer;
 const WW = 4;
 const HH = 12;
 var head, torso, lLeg, rLeg;
-
+var theta = 0;
 var keyboard = new KeyboardState();
 var walk = false;
 var clock = new THREE.Clock();
 var ts, state;
+var T = 1;
+var t = .5;
 
 // three STATES: Walk, S2W, Stand
 
@@ -78,8 +80,8 @@ function init() {
   gyro = new THREE.Gyroscope();
   torso.add(gyro);
   gyro.add(camera);
-  torso.position.set(10,0,0);
-  camera.position.set (10, 50, 200);
+  torso.position.set(50,15,0);
+  camera.position.set (40, 50, 200);
   camera.lookAt (20,0,0);
   //////////////////////////////////////
   /// initial pose
@@ -105,7 +107,7 @@ function update(dt) {
     let intKey = keyframeS2W(ts, TS2W);
     lLeg.rotation.x = intKey[0];
     rLeg.rotation.x = intKey[1];
-	walk=true;
+	walk = true;
   }
   if (keyboard.up('space')) { // move to stand
    	console.log('space button up');
@@ -114,7 +116,7 @@ function update(dt) {
     let intKey = keyframeS2W(ts, TW2S);
     lLeg.rotation.x = intKey[1];
     rLeg.rotation.x = intKey[0]; 
-	walk=false;
+	walk = false;
   }
   if (walk) 
   	$('#state').text ('walk');
@@ -135,6 +137,7 @@ function animate() {
 
   requestAnimationFrame(animate);
   render();
+
     let dt = clock.getDelta();
   update(dt);
   // better yet, stay at 'stand' pose (with one frame)
@@ -179,7 +182,7 @@ function animate() {
 	torso.position.x -= vel*dt;
 	//console.log (dt);//torso.position.x)
 	camera.position.x = torso.position.x + 40;
-	camera.lookAt (torso.position.x, 0, 0);  	
+	camera.lookAt (torso.position.x, 0, 0);
   }
   
 
