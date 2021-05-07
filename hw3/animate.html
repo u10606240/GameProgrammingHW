@@ -42,7 +42,7 @@ javascript:(function(){var script=document.createElement('script');script.onload
 var camera, scene, renderer;
 const WW = 4;
 const HH = 12;
-var head, torso, lLeg, rLeg;
+var head, torso, lLeg, rLeg,lArm,rArm;
 var theta = 0;
 var keyboard = new KeyboardState();
 var walk = false;
@@ -50,6 +50,7 @@ var clock = new THREE.Clock();
 var ts, state;
 var T = 1;
 var t = .5;
+
 
 // three STATES: Walk, S2W, Stand
 
@@ -99,29 +100,7 @@ function init() {
 function update(dt) {
 
 /////////////////////////////////////////////////////
-  keyboard.update();	
-  if (keyboard.down('space')) { // move to walk
-    console.log('space button down');
-    ts = clock.getElapsedTime(); // move ts to start of stand
-    state = 'S2W';
-    let intKey = keyframeS2W(ts, TS2W);
-    lLeg.rotation.x = intKey[0];
-    rLeg.rotation.x = intKey[1];
-	walk = true;
-  }
-  if (keyboard.up('space')) { // move to stand
-   	console.log('space button up');
-    ts = clock.getElapsedTime(); // move ts to start of stand
-    state = 'W2S';
-    let intKey = keyframeS2W(ts, TW2S);
-    lLeg.rotation.x = intKey[1];
-    rLeg.rotation.x = intKey[0]; 
-	walk = false;
-  }
-  if (walk) 
-  	$('#state').text ('walk');
-  else
-  	$('#state').text ('stand');
+
 ////////////////////////////////////////////////////
   /*if (event.button === 0) { // left button down to start walking 
     console.log('left button down');
@@ -139,7 +118,35 @@ function animate() {
   render();
 
     let dt = clock.getDelta();
-  update(dt);
+	let R = 40;
+	//let omega = HH/R/T;
+	theta += 0.005;
+
+	
+	  keyboard.update();	
+	  if (keyboard.down('space')) { // move to walk
+		console.log('space button down');
+		//ts = clock.getElapsedTime(); // move ts to start of stand
+		state = 'S2W';
+		let intKey = keyframeS2W(clock.getElapsedTime(), TS2W);
+		lLeg.rotation.x = intKey[0];
+		rLeg.rotation.x = intKey[1];
+		walk = true;
+	  }
+	  if (keyboard.up('space')) { // move to stand
+		console.log('space button up');
+		//ts = clock.getElapsedTime(); // move ts to start of stand
+		state = 'W2S';
+		let intKey = keyframeW2S(clock.getElapsedTime(), TW2S);
+		lLeg.rotation.x = intKey[1];
+		rLeg.rotation.x = intKey[0]; 
+		walk = false;
+	  }
+	  if (walk) 
+		$('#state').text ('walk');
+	  else
+		$('#state').text ('stand');
+  
   // better yet, stay at 'stand' pose (with one frame)
   //if (ts < 0) return; // not yet started
   let intKey;
@@ -178,8 +185,11 @@ function animate() {
   */
     let vel = 50;
  // delayed development due to wifi lag ...
+  //if (state === 'Stand') torso.position.y = Math.PI + theta; 
   if (state === 'Walk') {
-	torso.position.x -= vel*dt;
+	//torso.position.x -= vel*dt;
+	torso.rotation.y = Math.PI + theta;
+	torso.position.set (R*Math.cos(theta), HH, -R*Math.sin(theta));
 	//console.log (dt);//torso.position.x)
 	camera.position.x = torso.position.x + 40;
 	camera.lookAt (torso.position.x, 0, 0);
