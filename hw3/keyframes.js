@@ -114,7 +114,7 @@ function keyframeS2W(t, T) {  // non-periodic
 }
 
 function keyframeWalk(t, T) { // walk; periodic
-  let keys = keysWalk;
+  /*let keys = keysWalk;
   var s = ((t - ts) % T) / T;
 
   for (var i = 1; i < keys.length; i++) {
@@ -130,7 +130,7 @@ function keyframeWalk(t, T) { // walk; periodic
 }
 
 function keyframeW2S(t, T, lleg, rleg) {  // non-periodic
-  /*var cases;
+  var cases;
   console.log(cases);
   
   if(cases == 1){
@@ -188,7 +188,7 @@ function keyframeW2S(t, T, lleg, rleg) {  // non-periodic
   [1,poseS2W0]
   ];*/
   let keys = keysW2S;
-  var s = (t - ts) / T;
+  var s = (t -ts) / T;
 
   for (var i = 1; i < keys.length; i++) {
     if (keys[i][0] > s) break;
