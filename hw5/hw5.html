@@ -19,6 +19,8 @@ body {
 </style>
 </head>
 <div id="info">Hw5
+<br>
+<button onclick="location.href='https://u10606240.github.io/GameProgrammingHW/index.html'">回首頁</button>
 </div>
 <script src="https://threejs.org/build/three.min.js"></script>
 
@@ -150,6 +152,7 @@ var pE = new THREE.Vector3 (-15,20,0);
 var pE1 = new THREE.Vector3 (15,-20,0);
 var pE2 = new THREE.Vector3 (50,20,0);
 var radius = 5;
+var agents = [];
 
 init();
 animate();
@@ -228,6 +231,8 @@ function init() {
   path3.rotation.z = angle3;
   
   scene.add (end, end2,end3,end4);
+  ///////////////////////////////////////////////
+  setTimeout (newAnt,0);
   
   window.addEventListener('resize', onWindowResize, false);
 }
@@ -238,15 +243,31 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
+function newAnt () {
+  let randColor = Math.random()*0xffffff;
+  let circle = new THREE.Mesh (new THREE.CircleGeometry(1,20), new THREE.MeshBasicMaterial({color:randColor}));
+
+	let pos = new THREE.Vector3(0,(-1+Math.random()*2)*3,0);
+	let agent = new Agent (pos, circle);
+  agent.vel.set (2,0,0);
+  agents.push (agent);
+  
+  if (agents.length < 5)
+  	setTimeout (newAnt, 1000); 
+}
+
 function animate() {
   requestAnimationFrame(animate);
   render();
   
   let dt = 0.1;
+  agents.forEach (function(agent) {
   agent.update(dt);
   
   // portal
   if (agent.pos.x > 50) agent.pos.x = -50;
+  });
+  
   
 }
 
